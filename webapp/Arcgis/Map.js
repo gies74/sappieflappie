@@ -23,10 +23,6 @@ sap.ui.define([
 				"baseLayer": {
 					type: "string",
 					defaultValue: "https://services.arcgisonline.nl/arcgis/rest/services/Basiskaarten/Topo/MapServer"
-				},
-				"ieLayer": {
-					type: "string",
-					defaultValue: "https://st5214.alliander.local/arcgis/rest/services/IntellEvent/INTELLEVENT_GEO_BAR_RO/MapServer"
 				}
 			},
             events: {
@@ -80,7 +76,6 @@ sap.ui.define([
 		require([
 			"esri/map", 
 			"esri/basemaps",
-			"esri/layers/ArcGISDynamicMapServiceLayer",
 	    	"dojo/dom-construct",
 		    "dojo/dom",
 		    "dojo/touch",
@@ -89,7 +84,6 @@ sap.ui.define([
 		],function(
 			Map,
 			basemaps,
-			ArcGISDynamicMapServiceLayer,
 			domConstruct,
 			dom,
 			touch,
@@ -103,10 +97,6 @@ sap.ui.define([
 				basemap: "baselayer",
 				showAttribution: false
 			});
-			// gies
-			var ieLayer = new ArcGISDynamicMapServiceLayer(oControl.getIeLayer());
-			oMap.addLayer(ieLayer);
-			debugger;
 			oMap.on("load", function () {
 	            oControl.fireReady({
 	                arcgismap: oMap,
