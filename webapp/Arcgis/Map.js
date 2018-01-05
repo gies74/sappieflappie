@@ -22,7 +22,9 @@ sap.ui.define([
 				},
 				"baseLayer": {
 					type: "string",
-					defaultValue: "https://services.arcgisonline.nl/arcgis/rest/services/Basiskaarten/Topo/MapServer"
+                    //defaultValue: "https://st5214.alliander.local/arcgis/rest/services/IntellEvent/INTELLEVENT_MSSS_TOP_RO_BAR/MapServer"
+                    // defaultValue: "http://msss.alliander.local/arcgis/rest/services/Schakelstanden/Schemakaart_Wit/MapServer" 
+                    defaultValue: "https://services.arcgisonline.nl/arcgis/rest/services/Basiskaarten/Topo/MapServer"
 				}
 			},
             events: {
@@ -90,7 +92,10 @@ sap.ui.define([
 			on
 		) {
 			basemaps.baselayer = {
-				baseMapLayers: [{url: oControl.getBaseLayer()}]
+                baseMapLayers: [{ url: oControl.getBaseLayer() }],
+                itemId: "ssss",
+                thumbnailUrl: "http://www.giesenodette.nl",
+                title: "hi"
 			};
 			var oMap = new Map(oControl.mapId, {
 				autoResize: false,

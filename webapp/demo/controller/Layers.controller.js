@@ -16,7 +16,8 @@ sap.ui.define([
 			// Alternatively, the Arcgis map object can be found in the SAPUI5 control
 			// var oArcgisMap = this.getView().byId("map").arcgismap;
 			
-			var weatherLayer = "https://services.arcgisonline.nl/arcgis/rest/services/Weer/Actuele_weersinformatie/MapServer";
+            var weatherLayer = "https://services.arcgisonline.nl/arcgis/rest/services/Weer/Actuele_weersinformatie/MapServer";
+            //var weatherLayer = "http://sp0837/arcgis/rest/services/Schakelstanden/Smart_Cable_Guard/MapServer";
 			
 			require(["esri/layers/ArcGISDynamicMapServiceLayer"], function(ArcGISDynamicMapServiceLayer) {
 				
