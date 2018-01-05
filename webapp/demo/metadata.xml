@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+  <edmx:DataServices m:DataServiceVersion="2.0">
+    <Schema Namespace="MYSAMPLE" xml:lang="en" sap:schema-version="0000" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityType Name="Meetopstelling" sap:content-version="1">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="ID" sap:updatable="false"/>
+        <Property Name="SCG_PLAATSING_ID" Type="Edm.Int" MaxLength="2" sap:label="SCG Plaatsing ID"/>
+        <Property Name="VOLGNUMMER" Type="Edm.Int" MaxLength="40" sap:label="Volgnummer"/>
+        <Property Name="GEPLAATST_VAN" Type="Edm.DateTime" MaxLength="255" sap:label="Geplaatst van" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="VELD_ID" Type="Edm.Int" MaxLength="1" sap:label="Veld Id" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="VELD_NAN" Type="Edm.String" MaxLength="255" sap:label="Veld NAN" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="VELD_RICHTING" Type="Edm.String" MaxLength="1" sap:label="Veld richting" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="TIMESTAMP_STATUSWIJZIGING" Type="Edm.Datetime" MaxLength="10" sap:label="Laatst gewijzigd"/>
+      </EntityType>
+      <EntityContainer Name="MYSAMPLE_Entities" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="Meetopstellingen" EntityType="MYSAMPLE.Product" sap:content-version="1"/>
+      </EntityContainer>
+      <atom:link rel="self" href="http://my.test.service.com/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+      <atom:link rel="latest-version" href="http://my.test.service.com/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

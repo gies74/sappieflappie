@@ -1,24 +1,30 @@
-﻿sap.ui.define(['sap/ui/core/mvc/Controller'],
-    function (Controller) {
-        "use strict";
+sap.ui.define([
+	"ArcgisDemo/controller/BaseController"
+], function(BaseController) {
+	"use strict";
 
-        var ControllerController = Controller.extend("ArcgisDemo.controller.App", {
-            handleSwitchOrientation: function (oEvent) {
-                var sOrientation = this.getView().byId("mySplitContainer").getOrientation();
-                if (sOrientation == "Vertical") {
-                    sOrientation = "Horizontal";
-                } else {
-                    sOrientation = "Vertical";
-                }
-                this.getView().byId("mySplitContainer").setOrientation(sOrientation);
-            },
+	return BaseController.extend("ArcgisDemo.controller.App", {
+		
+		onInit: function() {
+	        
+		},
+		
+		goToSimpleMap: function() {
+			this.getRouter().navTo("SimpleMap");
+		},
+		
+		goToButtons: function() {
+			this.getRouter().navTo("Buttons");
+		},
+		
+        goToLayers: function () {
+            this.getRouter().navTo("Layers");
+        },
 
-            handleToggleSecondaryContent: function (oEvent) {
-                var oSplitContainer = this.getView().byId("mySplitContainer");
-                oSplitContainer.setShowSecondaryContent(!oSplitContainer.getShowSecondaryContent());
-            }
-        });
+        goToSCGMain: function () {
+            this.getRouter().navTo("SCGMain");
+        }
+		
+	});
 
-        return ControllerController;
-
-    });
+});

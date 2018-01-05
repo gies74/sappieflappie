@@ -1,20 +1,12 @@
-<mvc:View
-	controllerName="ArcgisDemo.controller.App"
-	xmlns:u="sap.ui.unified"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m"
-	class="fullHeight">
-  <u:SplitContainer
-    id="mySplitContainer"
-    showSecondaryContent="true"
-    orientation="Vertical">
-    <u:content>
-      <!--
-      <Button text ="Toggle Secondary Content" press="handleToggleSecondaryContent" />
-      -->
-      <App id="ArcgisDemoApp"></App>
-    </u:content>
-    <u:secondaryContent>
-    </u:secondaryContent>
-  </u:SplitContainer>
-</mvc:View>
+<core:View controllerName="ArcgisDemo.controller.App" displayBlock="false" height="100%" xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Page showHeader="false">
+    <!--
+		<headerContent>
+			<core:Fragment fragmentName="ArcgisDemo.fragment.Menu" type="XML" />
+		</headerContent>
+    -->
+		<content>
+			<App id="ArcgisDemoApp"></App>
+		</content>
+	</Page>
+</core:View>

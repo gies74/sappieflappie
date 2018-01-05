@@ -1,0 +1,122 @@
+<mvc:View
+	controllerName="ArcgisDemo.controller.SCGMain"
+	xmlns:u="sap.ui.unified"
+  xmlns:t="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	class="fullHeight">
+  <u:SplitContainer
+    id="mySplitContainer"
+    showSecondaryContent="true"
+    orientation="Vertical">
+    <u:content>
+      <Arcgis:Map id="map" xmlns:Arcgis="Arcgis">
+        <Button icon="sap-icon://weather-proofing" type="Emphasized" press="addLayerWeather1"></Button>
+        <Button icon="sap-icon://arrow-bottom" press="addLayerWeather2" type="Accept"></Button>
+        <Button icon="sap-icon://map" type="Reject" press="findLocation"></Button>
+      </Arcgis:Map>
+      <!--
+      <Button text ="Toggle Secondary Content" press="handleToggleSecondaryContent" />
+      -->
+    </u:content>
+    <u:secondaryContent>
+      <t:Table
+				id="table"
+				selectionMode="MultiToggle"
+				visibleRowCount="7"
+				enableSelectAll="false"
+				rows="{
+					path: '/Meetopstellingen',
+					parameters: {operationMode: 'Server'}
+				}"
+				threshold="15"
+				enableBusyIndicator="true"
+				ariaLabelledBy="title">
+        <t:noData>
+          <BusyIndicator class="sapUiMediumMargin"/>
+        </t:noData>
+        <t:toolbar>
+          <Toolbar>
+            <Title id="title" text="Meetopstellingen"></Title>
+            <ToolbarSpacer/>
+            <Button
+							icon="sap-icon://refresh"
+							tooltip="Reinitialize Model"
+							press="onModelRefresh"/>
+          </Toolbar>
+        </t:toolbar>
+        <t:columns>
+          <t:Column
+						sortProperty="ID"
+						filterProperty="ID"
+						autoResizable="true"
+						width="6rem">
+            <Label text="{/#Meetopstelling/ID/@sap:label}" />
+            <t:template>
+              <Text text="{ID}" wrapping="false" />
+            </t:template>
+          </t:Column>
+          <t:Column
+						sortProperty="SCG_PLAATSING_ID"
+						filterProperty="SCG_PLAATSING_ID"
+						autoResizable="true"
+						width="11rem">
+            <Label text="{/#Meetopstelling/SCG_PLAATSING_ID/@sap:label}" />
+            <t:template>
+              <Text text="{SCG_PLAATSING_ID}" wrapping="false" />
+            </t:template>
+          </t:Column>
+          <t:Column
+						sortProperty="VOLGNUMMER"
+						filterProperty="VOLGNUMMER"
+						autoResizable="true"
+						width="11rem">
+            <Label text="{/#Meetopstelling/VOLGNUMMER/@sap:label}" />
+            <t:template>
+              <Text text="{VOLGNUMMER}" wrapping="false" />
+            </t:template>
+          </t:Column>
+          <t:Column
+						sortProperty="VELD_RICHTING"
+						filterProperty="VELD_RICHTING"
+						autoResizable="true"
+						width="12rem">
+            <Label text="{/#Meetopstelling/VELD_RICHTING/@sap:label}" />
+            <t:template>
+              <Text text="{VELD_RICHTING}" wrapping="false" />
+            </t:template>
+          </t:Column>
+          <t:Column
+						sortProperty="VELD_NAN"
+						filterProperty="VELD_NAN"
+						autoResizable="true"
+						width="12rem">
+            <Label text="{/#Meetopstelling/VELD_NAN/@sap:label}" />
+            <t:template>
+              <Text text="{VELD_NAN}" wrapping="false" />
+            </t:template>
+          </t:Column>
+        </t:columns>
+        <t:footer>
+          <Toolbar>
+            <Label text="OData Model Operation Mode:" labelFor="operationMode"/>
+            <SegmentedButton
+							id="operationMode"
+							select="onOperationModeChange"
+							selectedKey="{ui>selectedOperationMode}"
+							items="{ui>/operationModes}">
+              <items>
+                <SegmentedButtonItem text="{ui>name}" key="{ui>name}"/>
+              </items>
+            </SegmentedButton>
+            <ToolbarSpacer/>
+            <Button
+							icon="sap-icon://hint"
+							tooltip="Show information"
+							press="showInfo"/>
+          </Toolbar>
+        </t:footer>
+      </t:Table>
+    </u:secondaryContent>
+  </u:SplitContainer>
+</mvc:View>

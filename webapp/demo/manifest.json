@@ -45,34 +45,42 @@
 				"controlAggregation": "pages",
 				"transition": "slide"
 			},
-			"routes": [
-				{
-					"pattern": "",
-					"name": "SimpleMap",
-					"target": "SimpleMap"
-				},
-				{
-					"pattern": "buttons",
-					"name": "Buttons",
-					"target": "Buttons"
-				},
-				{
-					"pattern": "layers",
-					"name": "Layers",
-					"target": "Layers"
-				}
-			],
-			"targets": {
-				"SimpleMap": {
-					"viewName": "SimpleMap"
-				},
-				"Buttons": {
-					"viewName": "Buttons"
-				},
-				"Layers": {
-					"viewName": "Layers"
-				}
-			}
+      "routes": [
+        {
+          "pattern": "",
+          "name": "SCGMain",
+          "target": "SCGMain"
+        },
+        {
+          "pattern": "simplemap",
+          "name": "SimpleMap",
+          "target": "SimpleMap"
+        },
+        {
+          "pattern": "buttons",
+          "name": "Buttons",
+          "target": "Buttons"
+        },
+        {
+          "pattern": "layers",
+          "name": "Layers",
+          "target": "Layers"
+        }
+      ],
+      "targets": {
+        "SimpleMap": {
+          "viewName": "SimpleMap"
+        },
+        "Buttons": {
+          "viewName": "Buttons"
+        },
+        "Layers": {
+          "viewName": "Layers"
+        },
+        "SCGMain": {
+          "viewName": "SCGMain"
+        }
+      }
 		}
 	}
 }
