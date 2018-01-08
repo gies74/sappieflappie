@@ -11,24 +11,34 @@ sap.ui.define([
 ], function (BaseController, MockServer, ODataModel, JSONModel, OperationMode, MessageBox, Dialog, Input, Button) {
 	"use strict";
 
-    var sServiceUrl = "http://my.test.service.com/";
+    var sServiceUrl;
+    if (window.location.hostname.match(/\.alliander\.local$/))
+    {
+        var href = window.location.href;
+        var partial = "SCG/Meetopstelling";
+        sServiceUrl = href.substr(0, href.indexOf(partial) + partial.length) + "/MEETOPSTELLINGEN.xsodata/GDSS_WEBSERVICE?$format=json";
+    }
+    else
+        sServiceUrl = "http://my.test.service.com/";
 
 	return BaseController.extend("ArcgisDemo.controller.SCGMain", {
 		
         onInit: function () {
-            this.oMockServer = new MockServer({
-                rootUri: sServiceUrl
-            });
+            if (!sServiceUrl.match(/json/)) {
+                this.oMockServer = new MockServer({
+                    rootUri: sServiceUrl
+                });
 
-            MockServer.config({ autoRespondAfter: 200 });
+                MockServer.config({ autoRespondAfter: 200 });
 
-            var sMockDataPath = jQuery.sap.getModulePath("ArcgisDemo");
-            this.oMockServer.simulate(sMockDataPath + "/metadata.xml", {
-                sMockdataBaseUrl: sMockDataPath,
-                bGenerateMissingMockData: true
-            });
+                var sMockDataPath = jQuery.sap.getModulePath("ArcgisDemo");
+                this.oMockServer.simulate(sMockDataPath + "/metadata.xml", {
+                    sMockdataBaseUrl: sMockDataPath,
+                    bGenerateMissingMockData: true
+                });
 
-            this.oMockServer.start();
+                this.oMockServer.start();
+            }
 
             var oView = this.getView();
             this.oBusyIndicator = this.getTable().getNoData();

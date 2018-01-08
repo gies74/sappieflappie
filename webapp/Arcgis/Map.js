@@ -26,11 +26,12 @@ sap.ui.define([
                 },
                 "msSchematicLayer": {
                     type: "string",
-                    defaultValue: "https://sp0404.alliander.local/arcgis/rest/services/Schakelstanden/Schemakaart_Wit/MapServer"
+                    defaultValue: "https://sp0404.alliander.local/arcgis/rest/services/Schakelstanden/Schemakaart_Zwart/MapServer"
                 },
                 "scgSymbolLayer": {
                     type: "string",
                     defaultValue: "https://st5214.alliander.local/arcgis/rest/services/SCG/Plaatsingen/MapServer"
+                    // "http://sp0837.alliander.local/arcgis/rest/services/Schakelstanden/Smart_Cable_Guard/MapServer"
                 }
 			},
             events: {
@@ -84,7 +85,7 @@ sap.ui.define([
 		require([
             "esri/map", 
             "esri/Color",
-            "esri/layers/ArcGISDynamicMapServiceLayer",
+            "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/ImageParameters",
 			"esri/basemaps",
 	    	"dojo/dom-construct",
 		    "dojo/dom",
@@ -94,7 +95,7 @@ sap.ui.define([
 		],function(
             Map,
             Color,
-            ArcGISDynamicMapServiceLayer,
+            ArcGISDynamicMapServiceLayer, ImageParameters,
 			basemaps,
 			domConstruct,
 			dom,
@@ -106,14 +107,17 @@ sap.ui.define([
 			};
 			var oMap = new Map(oControl.mapId, {
 				autoResize: false,                
-                backgroundColor: new Color("white"),
+                backgroundColor: new Color("black"),
 				showAttribution: false
             });
 
             var slyr = oControl.getMsSchematicLayer();
             oMap.addLayer(new ArcGISDynamicMapServiceLayer(slyr));
+
+            var ip = new ImageParameters();
+            ip.format = "png32";
             slyr = oControl.getScgSymbolLayer();
-            oMap.addLayer(new ArcGISDynamicMapServiceLayer(slyr, { layerDefinitions: ["1=0", "1=0", "1=0", "1=0"]}));
+            oMap.addLayer(new ArcGISDynamicMapServiceLayer(slyr, {imageParameters : ip, layerDefinitions: ["1=0", "1=0", "1=0", "1=0"] })); // , { }));
 
 			oMap.on("load", function () {
 	            oControl.fireReady({
