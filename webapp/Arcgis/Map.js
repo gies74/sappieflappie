@@ -19,13 +19,19 @@ sap.ui.define([
 				"height": {
 					type: "sap.ui.core.CSSSize",
 					defaultValue: "100%"
-				},
-				"baseLayer": {
-					type: "string",
-                    //defaultValue: "https://st5214.alliander.local/arcgis/rest/services/IntellEvent/INTELLEVENT_MSSS_TOP_RO_BAR/MapServer"
-                    // defaultValue: "http://msss.alliander.local/arcgis/rest/services/Schakelstanden/Schemakaart_Wit/MapServer" 
+                },
+                "baseLayer": {
+                    type: "string",
                     defaultValue: "https://services.arcgisonline.nl/arcgis/rest/services/Basiskaarten/Topo/MapServer"
-				}
+                },
+                "msSchematicLayer": {
+                    type: "string",
+                    defaultValue: "http://sp0404.alliander.local/arcgis/rest/services/Schakelstanden/Schemakaart_Wit/MapServer"
+                },
+                "scgSymbolLayer": {
+                    type: "string",
+                    defaultValue: "http://st5214.alliander.local/arcgis/rest/services/SCG/Plaatsingen/MapServer"
+                }
 			},
             events: {
                 'ready': {}
@@ -76,7 +82,9 @@ sap.ui.define([
 	Arcgis.prototype.createMap = function() {
 		var oControl = this;
 		require([
-			"esri/map", 
+            "esri/map", 
+            "esri/Color",
+            "esri/layers/ArcGISDynamicMapServiceLayer",
 			"esri/basemaps",
 	    	"dojo/dom-construct",
 		    "dojo/dom",
@@ -84,7 +92,9 @@ sap.ui.define([
 	    	"dojo/on",
 			"dojo/domReady!"
 		],function(
-			Map,
+            Map,
+            Color,
+            ArcGISDynamicMapServiceLayer,
 			basemaps,
 			domConstruct,
 			dom,
@@ -98,10 +108,16 @@ sap.ui.define([
                 title: "hi"
 			};
 			var oMap = new Map(oControl.mapId, {
-				autoResize: false,
-				basemap: "baselayer",
+				autoResize: false,                
+                backgroundColor: new Color("white"),
 				showAttribution: false
-			});
+            });
+
+            var slyr = oControl.getMsSchematicLayer();
+            oMap.addLayer(new ArcGISDynamicMapServiceLayer(slyr));
+            slyr = oControl.getScgSymbolLayer();
+            oMap.addLayer(new ArcGISDynamicMapServiceLayer(slyr, { layerDefinitions: ["1=0", "1=0", "1=0", "1=0"]}));
+
 			oMap.on("load", function () {
 	            oControl.fireReady({
 	                arcgismap: oMap,
