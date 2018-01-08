@@ -26,11 +26,11 @@ sap.ui.define([
                 },
                 "msSchematicLayer": {
                     type: "string",
-                    defaultValue: "http://sp0404.alliander.local/arcgis/rest/services/Schakelstanden/Schemakaart_Wit/MapServer"
+                    defaultValue: "https://sp0404.alliander.local/arcgis/rest/services/Schakelstanden/Schemakaart_Wit/MapServer"
                 },
                 "scgSymbolLayer": {
                     type: "string",
-                    defaultValue: "http://st5214.alliander.local/arcgis/rest/services/SCG/Plaatsingen/MapServer"
+                    defaultValue: "https://st5214.alliander.local/arcgis/rest/services/SCG/Plaatsingen/MapServer"
                 }
 			},
             events: {
@@ -102,10 +102,7 @@ sap.ui.define([
 			on
 		) {
 			basemaps.baselayer = {
-                baseMapLayers: [{ url: oControl.getBaseLayer() }],
-                itemId: "ssss",
-                thumbnailUrl: "http://www.giesenodette.nl",
-                title: "hi"
+                baseMapLayers: [{ url: oControl.getBaseLayer() }]
 			};
 			var oMap = new Map(oControl.mapId, {
 				autoResize: false,                
