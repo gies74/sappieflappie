@@ -20,10 +20,6 @@ sap.ui.define([
 					type: "sap.ui.core.CSSSize",
 					defaultValue: "100%"
                 },
-                "baseLayer": {
-                    type: "string",
-                    defaultValue: "https://services.arcgisonline.nl/arcgis/rest/services/Basiskaarten/Topo/MapServer"
-                },
                 "msSchematicLayer": {
                     type: "string",
                     defaultValue: "https://sp0404.alliander.local/arcgis/rest/services/Schakelstanden/Schemakaart_Zwart/MapServer"
@@ -102,9 +98,7 @@ sap.ui.define([
 			touch,
 			on
 		) {
-			basemaps.baselayer = {
-                baseMapLayers: [{ url: oControl.getBaseLayer() }]
-			};
+
 			var oMap = new Map(oControl.mapId, {
 				autoResize: false,                
                 backgroundColor: new Color("black"),

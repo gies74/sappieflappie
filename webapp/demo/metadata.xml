@@ -6,8 +6,8 @@
         <Key>
           <PropertyRef Name="ID"/>
         </Key>
-        <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="ID" sap:updatable="false"/>
-        <Property Name="SCG_PLAATSING_ID" Type="Edm.Int" MaxLength="2" sap:label="SCG Plaatsing ID"/>
+        <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="19" sap:label="ID" sap:updatable="false"/>
+        <Property Name="SCG_PLAATSING_ID" Type="Edm.Int" MaxLength="6" sap:label="SCG Plaatsing ID"/>
         <Property Name="VOLGNUMMER" Type="Edm.Int" MaxLength="40" sap:label="Volgnummer"/>
         <Property Name="GEPLAATST_VAN" Type="Edm.DateTime" MaxLength="255" sap:label="Geplaatst van" sap:sortable="false" sap:filterable="false"/>
         <Property Name="VELD_ID" Type="Edm.Int" MaxLength="1" sap:label="Veld Id" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
@@ -16,7 +16,7 @@
         <Property Name="TIMESTAMP_STATUSWIJZIGING" Type="Edm.Datetime" MaxLength="10" sap:label="Laatst gewijzigd"/>
       </EntityType>
       <EntityContainer Name="MYSAMPLE_Entities" m:IsDefaultEntityContainer="true">
-        <EntitySet Name="Meetopstellingen" EntityType="MYSAMPLE.Product" sap:content-version="1"/>
+        <EntitySet Name="Meetopstellingen" EntityType="MYSAMPLE.Meetopstelling" sap:content-version="1"/>
       </EntityContainer>
       <atom:link rel="self" href="http://my.test.service.com/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
       <atom:link rel="latest-version" href="http://my.test.service.com/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>

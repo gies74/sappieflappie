@@ -10,7 +10,7 @@
     showSecondaryContent="true"
     orientation="Vertical">
     <u:content>
-      <Arcgis:Map id="map" xmlns:Arcgis="Arcgis">
+      <Arcgis:Map id="map" xmlns:Arcgis="Arcgis" ready="onMapReady">
         <Button icon="sap-icon://weather-proofing" type="Emphasized" press="addLayerWeather1"></Button>
         <Button icon="sap-icon://arrow-bottom" press="addLayerWeather2" type="Accept"></Button>
         <Button icon="sap-icon://map" type="Reject" press="findLocation"></Button>
@@ -22,7 +22,7 @@
     <u:secondaryContent>
       <t:Table
 				id="table"
-				selectionMode="MultiToggle"
+				selectionMode="Single"
 				visibleRowCount="7"
 				enableSelectAll="false"
 				rows="{

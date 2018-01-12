@@ -54,6 +54,45 @@ sap.ui.define([
                 oUiData.operationModes.push({ name: OperationMode[mode] });
             }
             oView.setModel(new JSONModel(oUiData), "ui");
+
+            var oTable = this.getTable();
+            var lastSelIndex = -1;
+            var oController = this;
+            oTable.attachEvent("rowSelectionChange", function (oEvent) {
+                var oRowContext = oEvent.getParameter("rowContext")
+                var scgPlaatsingId = null;
+                if (oEvent.getSource().getSelectedIndex() != -1) {
+                    scgPlaatsingId = oRowContext.oModel.getProperty("SCG_PLAATSING_ID", oRowContext);
+                }
+                oController._selectInMap(scgPlaatsingId);
+            });
+        },
+
+        _selectInMap: function (scgPlaatsingId) {
+
+            var oArcgisMap = this.getMap().arcgismap;
+            var oController = this;
+
+            require([
+                "esri/layers/FeatureLayer",
+                "esri/tasks/query", "esri/geometry/Extent", "esri/geometry/geometryEngine", "dojo/_base/array"], function (FeatureLayer, Query, Extent, GeometryEngine, array) {
+
+
+                    var scgLayer = oController.scgLayer;
+                    scgLayer.clearSelection();
+                    if (scgPlaatsingId == null)
+                        return;
+                    var query = new Query();
+                    query.where = "SCG_PLAATSING_ID=" + scgPlaatsingId;
+                    scgLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (features) {
+                        var geoms = array.map(features, function (feature) {
+                            return feature.geometry;
+                        });
+                        var stateExtent = GeometryEngine.union(geoms).getExtent();
+                        stateExtent = stateExtent.expand(2.0);
+                        oArcgisMap.setExtent(stateExtent);
+                    });
+                });
         },
 
         onExit: function () {
@@ -76,13 +115,17 @@ sap.ui.define([
             return this.getView().byId("table");
         },
 
+        getMap: function () {
+            return this.getView().byId("map");
+        },
+
         onModelRefresh: function () {
             this.getTable().getBinding().refresh(true);
         },
 
         onOperationModeChange: function (oEvent) {
             this.getTable().bindRows({
-                path: "/ProductSet",
+                path: "/Meetopstellingen",
                 parameters: { operationMode: oEvent.getParameter("key") }
             });
             this.initBindingEventHandler();
@@ -110,10 +153,37 @@ sap.ui.define([
                 // nothing
             }
         },
+
+        onMapReady: function (oEvent) {
+            // The Arcgis map object can be found in the event parameters
+            var oArcgisMap = oEvent.getParameter("arcgismap");
+
+            var scgLayerUrl = "http://st5214.alliander.local/arcgis/rest/services/SCG/Plaatsingen/FeatureServer/0";
+            var oController = this;
+            require(["esri/layers/FeatureLayer", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleMarkerSymbol", "esri/Color"], function (FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Color) {
+                var scgLayer = new FeatureLayer(scgLayerUrl, {
+                    mode: FeatureLayer.MODE_SELECTION,
+                    outFields: ["ObjectID", "SCG_PLAATSING_ID", "VELD_NAN"]
+                });
+                //scgLayer.setSelectionSymbol(new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255])));
+                // new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255])) , new Color([0, 255, 255]))
+                var sms = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 40,
+                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                        new Color([0, 255, 255]), 2.5),
+                    new Color([0, 255, 0, 0]));
+                scgLayer.setSelectionSymbol(sms);
+
+
+                // Add a layer to the basemap
+                oController.scgLayer = scgLayer;
+                oArcgisMap.addLayer(scgLayer);
+
+            });
+        },
 		
 		addLayerWeather1: function() {
 			// Get the map object from the custom control
-			var oArcgisMap = this.getView().byId("map").arcgismap;
+			var oArcgisMap = this.getMap().arcgismap;
 			
 			var weatherLayer = "https://services.arcgisonline.nl/arcgis/rest/services/Weer/Actuele_weersinformatie/MapServer";
 			
