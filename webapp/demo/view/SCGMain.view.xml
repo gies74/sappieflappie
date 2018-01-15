@@ -1,50 +1,63 @@
 <mvc:View
 	controllerName="ArcgisDemo.controller.SCGMain"
+  xmlns:l="sap.ui.layout"
 	xmlns:u="sap.ui.unified"
   xmlns:t="sap.ui.table"
 	xmlns:mvc="sap.ui.core.mvc"
+  xmlns:Arcgis="Arcgis" 
 	xmlns="sap.m"
 	class="fullHeight">
-  <u:SplitContainer
-    id="mySplitContainer"
-    showSecondaryContent="true"
-    orientation="Vertical">
-    <u:content>
-      <Arcgis:Map id="map" xmlns:Arcgis="Arcgis" ready="onMapReady">
+  <l:Splitter height="100%" orientation="Vertical">
+    <l:contentAreas>
+      <Arcgis:Map id="map" ready="onMapReady">
+        <Arcgis:layoutData>
+          <l:SplitterLayoutData size="auto" />
+        </Arcgis:layoutData>
         <Button icon="sap-icon://weather-proofing" type="Emphasized" press="addLayerWeather1"></Button>
         <Button icon="sap-icon://arrow-bottom" press="addLayerWeather2" type="Accept"></Button>
         <Button icon="sap-icon://map" type="Reject" press="findLocation"></Button>
       </Arcgis:Map>
-      <!--
-      <Button text ="Toggle Secondary Content" press="handleToggleSecondaryContent" />
-      -->
-    </u:content>
-    <u:secondaryContent>
+      <!-- pagination : http://plnkr.co/edit/pDo08DPKpHPPfiI0BxlK?p=preview -->
       <t:Table
 				id="table"
 				selectionMode="Single"
-				visibleRowCount="7"
+				visibleRowCountMode="Auto"
 				enableSelectAll="false"
 				rows="{
 					path: '/Meetopstellingen',
+          filters: ['SCG_PLAATSING_ID eq 200109'],
 					parameters: {operationMode: 'Server'}
 				}"
 				threshold="15"
 				enableBusyIndicator="true"
 				ariaLabelledBy="title">
+        <t:layoutData>
+          <l:SplitterLayoutData size="300px" />
+        </t:layoutData>
         <t:noData>
           <BusyIndicator class="sapUiMediumMargin"/>
         </t:noData>
-        <t:toolbar>
+        <t:extension>
           <Toolbar>
-            <Title id="title" text="Meetopstellingen"></Title>
+            <Label text="Filter:" labelFor="operationMode"/>
+            <SegmentedButton
+							id="operationMode"
+							select="onOperationModeChange"
+							selectedKey="{filter>selectedFilter}"
+							items="{filter>/filters}">
+              <items>
+                <SegmentedButtonItem text="{filter>text}" key="{filter>key}"/>
+              </items>
+            </SegmentedButton>
             <ToolbarSpacer/>
             <Button
 							icon="sap-icon://refresh"
 							tooltip="Reinitialize Model"
 							press="onModelRefresh"/>
           </Toolbar>
-        </t:toolbar>
+        </t:extension>
+        <!-- GB not needed
+        -->
         <t:columns>
           <t:Column
 						sortProperty="ID"
@@ -97,6 +110,7 @@
             </t:template>
           </t:Column>
         </t:columns>
+        <!-- GB not needed
         <t:footer>
           <Toolbar>
             <Label text="OData Model Operation Mode:" labelFor="operationMode"/>
@@ -116,7 +130,8 @@
 							press="showInfo"/>
           </Toolbar>
         </t:footer>
+        -->
       </t:Table>
-    </u:secondaryContent>
-  </u:SplitContainer>
+    </l:contentAreas>
+  </l:Splitter>
 </mvc:View>

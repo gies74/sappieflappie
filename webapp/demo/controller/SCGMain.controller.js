@@ -4,11 +4,12 @@ sap.ui.define([
     "sap/ui/model/odata/v2/ODataModel",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/odata/OperationMode",
+    "sap/ui/model/Filter", "sap/ui/model/FilterOperator",
 	"sap/m/MessageBox",
 	"sap/m/Dialog",
 	"sap/m/Input",
 	"sap/m/Button"
-], function (BaseController, MockServer, ODataModel, JSONModel, OperationMode, MessageBox, Dialog, Input, Button) {
+], function (BaseController, MockServer, ODataModel, JSONModel, OperationMode, Filter, FilterOperator, MessageBox, Dialog, Input, Button) {
 	"use strict";
 
     var sServiceUrl;
@@ -54,6 +55,22 @@ sap.ui.define([
                 oUiData.operationModes.push({ name: OperationMode[mode] });
             }
             oView.setModel(new JSONModel(oUiData), "ui");
+
+            var oPredefFilter = {
+                filters: [
+                    { text: "Geen filter", key: -1 },
+                    { text: "Risicovolle Tracés", key: 200109 },
+                    { text: "Selectie", key: 200110 },
+                    { text: "Gepland CWI", key: 200126 },
+                    { text: "Gepland", key: 200129 },
+                    { text: "Plaatsing > MD", key: 200138 },
+                    { text: "Geplaatst", key: 200151 },
+                    { text: "Verwijderen > MD", key: 200155 },
+                    { text: "Historie", key: 200166 }
+                ],
+                selectedFilter: -1
+            };
+            oView.setModel(new JSONModel(oPredefFilter), "filter");
 
             var oTable = this.getTable();
             var lastSelIndex = -1;
@@ -124,8 +141,15 @@ sap.ui.define([
         },
 
         onOperationModeChange: function (oEvent) {
+            var _key = oEvent.getParameter("key");
+            var _filter = (_key != -1) ? [new Filter({
+                path: "SCG_PLAATSING_ID",
+                operator: FilterOperator.EQ,
+                value1: _key
+            })] : [];
             this.getTable().bindRows({
                 path: "/Meetopstellingen",
+                filters: _filter,
                 parameters: { operationMode: oEvent.getParameter("key") }
             });
             this.initBindingEventHandler();
