@@ -17,7 +17,7 @@
         <Button icon="sap-icon://arrow-bottom" press="addLayerWeather2" type="Accept"></Button>
         <Button icon="sap-icon://map" type="Reject" press="findLocation"></Button>
       </Arcgis:Map>
-      <!-- pagination : http://plnkr.co/edit/pDo08DPKpHPPfiI0BxlK?p=preview -->
+      <!-- table pagination : https://archive.sap.com/discussions/thread/3889061 -->
       <t:Table
 				id="table"
 				selectionMode="Single"
@@ -25,7 +25,6 @@
 				enableSelectAll="false"
 				rows="{
 					path: '/Meetopstellingen',
-          filters: ['SCG_PLAATSING_ID eq 200109'],
 					parameters: {operationMode: 'Server'}
 				}"
 				threshold="15"
